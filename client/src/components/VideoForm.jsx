@@ -36,7 +36,7 @@ const VideoForm = () => {
             setIsPreprocessing(true);
 
             axios
-                .post("http://localhost:5000/preprocess", { url })
+                .post("https://youtube-qna-bot.onrender.com/preprocess", { url })
                 .then((res) => {
                     console.log("Preprocess complete:", res.data.message);
                     setError("");
@@ -62,7 +62,7 @@ const VideoForm = () => {
         setLoading(true);
 
         try {
-            const res = await axios.post("http://localhost:5000/ask", {
+            const res = await axios.post("https://youtube-qna-bot.onrender.com/ask", {
                 url,
                 question,
             });
