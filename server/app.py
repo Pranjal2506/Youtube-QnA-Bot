@@ -25,7 +25,7 @@ def preprocess():
             return jsonify({"message": "Already processed."}), 200
 
         # Process and cache
-        video_id, transcript = get_transcript(url)
+        transcript = get_transcript(url)
         print("Caching new vectorstore")
         if not transcript:
                 return jsonify({"error": "Give link of video with English language."}), 404
