@@ -28,53 +28,53 @@ def extract_video_id(youtube_url):
     return None
 
 # def get_transcript(youtube_url):
-#     video_id = extract_video_id(youtube_url)
-#     if(not video_id):
-#         return "invalid youtube url"
-#     print("extracted video id")
-#     print("extracting transcript")
-#     try:
-#         transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'hi'])
-#         full_text = "".join(t["text"] for t in transcript)
-#         print("transcript extracted")
-#     except Exception as e:
-#         print(f"Error fetching transcript: {e}")
-#         return None, None
-#     return video_id, full_text
-
-
-def get_transcript(url):
-    if not url:
-        return "No URL provided"
-
-    # Unique ID for temp files
-    video_id = str(uuid.uuid4())
-    subtitle_file = f"{video_id}.en.vtt"
-
-    # yt-dlp command to download subtitles
-    command = [
-        "yt-dlp",
-        "--write-auto-sub",
-        "--sub-lang", "en",
-        "--skip-download",
-        "-o", video_id,
-        url
-    ]
-
+    video_id = extract_video_id(youtube_url)
+    if(not video_id):
+        return "invalid youtube url"
+    print("extracted video id")
+    print("extracting transcript")
     try:
-        subprocess.run(command, check=True)
-
-        # Parse VTT file
-        transcript = ""
-        for caption in webvtt.read(subtitle_file):
-            transcript += caption.text + " "
-
-        # Clean up
-        os.remove(subtitle_file)
-
-        return transcript.strip()
+        transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'hi'])
+        full_text = "".join(t["text"] for t in transcript)
+        print("transcript extracted")
     except Exception as e:
+        print(f"Error fetching transcript: {e}")
         return None, None
+    return video_id, full_text
+
+
+# def get_transcript(url):
+#     if not url:
+#         return "No URL provided"
+
+#     # Unique ID for temp files
+#     video_id = str(uuid.uuid4())
+#     subtitle_file = f"{video_id}.en.vtt"
+
+#     # yt-dlp command to download subtitles
+#     command = [
+#         "yt-dlp",
+#         "--write-auto-sub",
+#         "--sub-lang", "en",
+#         "--skip-download",
+#         "-o", video_id,
+#         url
+#     ]
+
+#     try:
+#         subprocess.run(command, check=True)
+
+#         # Parse VTT file
+#         transcript = ""
+#         for caption in webvtt.read(subtitle_file):
+#             transcript += caption.text + " "
+
+#         # Clean up
+#         os.remove(subtitle_file)
+
+#         return transcript.strip()
+#     except Exception as e:
+#         return None, None
 
 
 
